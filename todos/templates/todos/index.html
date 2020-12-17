@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Todos!</title>
+    </head>
+
+    <body>
+        <p>Logged in as {{user.username}}</p>
+
+        <form action='../logout/' method="POST">
+			{% csrf_token %}
+            <input type="submit" value="Logout"/>
+        </form>
+
+        <h1>Todos</h1>
+
+        <h2>Search</h2>
+        <form action="/todos/search/ " method="POST">
+            {% csrf_token %}
+            <input type="text" name="content"/>
+            <input type="hidden" name="url" value="/todos/"/>
+            <input type="submit" value="Search"/>
+        </form>
+
+        <h2>Up next</h2>
+
+        <table>
+            {% for todo in items %}
+            <tr>
+                <td style="text-align:left">{{todo.content | safe}}</td>
+                <td><form action="/todos/delete/ " method="POST">
+                    <input type="hidden" name="todo_id" value="{{todo.id}}"/>
+                    <input type="submit" value="Delete"/>
+                    </form></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Add</h2>
+        <form action="/todos/add/ " method="POST">
+            {% csrf_token %}
+            <input type="text" name="content"/>
+            <input type="submit" value="Add todo"/>
+        </form>
+
+        <h2>Clear everything</h2>
+        <form action="/todos/clear/ " method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Clear"/>
+        </form>
+
+        <h2>Delegate</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <span>Todo:</span><br/>
+            <select name="todo">
+			{% for todo in items %}
+                <option value="{{todo.content}}">{{todo.content}}</option>
+			{% endfor %}
+            </select><br/>
+            <span>To:</span><br/>
+            <select name="to">
+			{% for user in users %}
+                <option value="{{user.username}}">{{user}}</option>
+			{% endfor %}
+            </select><br/>
+
+            <input type="submit" value="Delegate!"/>
+        </form>
+
+    </body>
+</html>

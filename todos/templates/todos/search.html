@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Search result!</title>
+    </head>
+
+    <body>
+
+        <a href="{{url}}">Back</a>
+        <h1>Search result</h1>
+
+        <ul>
+        {% for todo in items %}
+        <li>{{todo.content}}</li>
+        {% endfor %}
+        </ul>
+    </body>
+</html>
